@@ -1,0 +1,163 @@
+﻿<Window x:Class="M003.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:M003"
+        Title="MainWindow" Height="800" Width="300"
+		WindowStartupLocation="CenterScreen" Topmost="True">
+    <StackPanel>
+		<!--Height und Width-->
+		<!--Setzt die absolute Höhe/Breite der Komponente-->
+		
+		<!--Jede Komponente nimmt sich so viel Platz, wie der Parent vorgibt-->
+		<!--StackPanel: Maximale Breite, soviel Höhe wie die Komponente benötigt-->
+		<!--Mit Width und Height kann diese Vorgabe überschrieben werden-->
+		<TextBlock Text="Test" Width="100" Height="50"/>
+		
+		<!--MinWidth/MaxWidth, MinHeight/MaxHeight-->
+		<!--Gibt die minimale/maximale Breite/Höhe vor-->
+		<!--Beispiel: NavBar Links mit MaxWidth 200, Rechts Inhalt-->
+		
+		
+		<!--Margin und Padding-->
+		<!--Margin: Abstand der Komponente selbst zur umliegenden Komponente-->
+		<!--Padding: Abstand des Inhalts der Komponente zur Komponente selbst-->
+		<Button Content="Test" Margin="5, 10, 20, 50" Padding="5, 10, 20, 50"/>
+		
+		<!--Bei Margin/Padding können auch mehr als nur ein Wert gesetzt werden-->
+		<!--Ein Wert: Alle 4 Seiten-->
+		<!--Zwei Werte: Links + Rechts, Oben + Unten-->
+		<!--Vier Werte: Links, Oben, Rechts, Unten-->
+		<Button/>
+		
+		
+		<!--Alignment-->
+		<!--Horizontal-/VerticalAlignment-->
+		<!--Horizontal-/VerticalContentAlignment-->
+		<!--Ohne Content: Komponente selbst zur umliegenden Komponente-->
+		<!--Mit Content: Inhalt der Komponente zur Komponente selbst-->
+		<ComboBox HorizontalContentAlignment="Center"
+				  HorizontalAlignment="Left"
+				  Width="100"
+				  SelectedIndex="0">
+			<ComboBoxItem Content="Test"/>
+			<ComboBoxItem Content="Test"/>
+			<ComboBoxItem Content="Test"/>
+		</ComboBox>
+		
+		<!---->
+
+		<!--StackPanel-->
+		<!--Stapelt die Inhalte von oben nach unten-->
+		<!--Jedes Element hat immer die maximale Breite/Höhe, hat immer nur so viel Breite/Höhe wie es benötigt, ist immer zentriert, ...-->
+		<StackPanel>
+			<Button Content="Test"/>
+			<Button Content="Test"/>
+			<Button Content="Test"/>
+		</StackPanel>
+		
+		<StackPanel Orientation="Horizontal">
+			<Button Content="TestTestTestTest"/>
+			<Button Content="TestTestTestTest"/>
+			<Button Content="TestTestTestTest"/>
+			<Button Content="TestTestTestTest"/>
+		</StackPanel>
+
+
+		<!--WrapPanel-->
+		<!--Funktioniert wie StackPanel, aber wrapped-->
+		<WrapPanel Orientation="Horizontal">
+			<Button Content="TestTestTestTest"/>
+			<Button Content="TestTestTestTest"/>
+			<Button Content="TestTestTestTest"/>
+			<Button Content="TestTestTestTest"/>
+		</WrapPanel>
+		
+		
+		<!--DockPanel-->
+		<!--Dockt Komponente links, oben, rechts, unten an (mithilfe von DockPanel.Dock)-->
+		<!--WICHTIG: Jede Komponente im DockPanel muss, je nach dem wieviel Platz sie bekommen soll, an der entsprechenden Höhe im Code stehen-->
+		<DockPanel>
+			<Button Content="Links" DockPanel.Dock="Left"/>
+			<Button Content="Rechts" DockPanel.Dock="Right"/>
+			<Button Content="Oben" DockPanel.Dock="Top"/>
+			<Button Content="Unten" DockPanel.Dock="Bottom"/>
+			<TextBlock Text="Mitte" TextAlignment="Center"/>
+		</DockPanel>
+		
+		
+		<!--Grid-->
+		<!--Hat Spalten und/oder Zeilen-->
+		<!--Jedes Element wird in eine Spalte/Zeile gelegt-->
+		<!--Jedes Element innerhalb einer Zelle nimmt immer den maximalen Platz ein-->
+		<Grid Height="100">
+			<!--3 Rows, 3 Columns: 3x3 Grid-->
+			<Grid.RowDefinitions>
+				<RowDefinition Height="50"/>
+				<RowDefinition Height="Auto"/> <!--Auto: Zeile ist so hoch, wie der größte Inhalt der Zeile-->
+				<RowDefinition Height="*"/>
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<!--Aufgabenstellung: Die mittlere Spalte soll doppelt so breit sein, wie die anderen beiden Spalten-->
+				<ColumnDefinition Width="1*"/>
+				<ColumnDefinition Width="2*"/>
+				<ColumnDefinition Width="1*"/>
+				<!--Gesamt: 4 Spaltenbreiten, S1 und S3 nehmen eine Breite, S2 nimmt zwei Breiten-->
+				<!--Fensterbreite 300, 300/4=75-->
+				<!--S1 und S3: 75px, S2: 150px-->
+			</Grid.ColumnDefinitions>
+			<Button Grid.Column="1" Grid.Row="2" Content="Hallo"/>
+			<TextBlock Grid.Row="1"/>
+			<Button Content="Zeile2" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
+		</Grid>
+		
+		
+		<!--UniformGrid-->
+		<!--Nimmt nur eine Spalten und Zeilenanzahl, und platziert Elemente automatisch-->
+		<UniformGrid Columns="3" Rows="3">
+			<Button Content="Links Oben"/>
+			<Button Content="Oben"/>
+			<Button Content="Rechts Oben"/>
+			<Button Content="Links"/>
+			<Button Content="Mitte"/>
+			<Button Content="Rechts"/>
+			<Button Content="Links Unten"/>
+			<Button Content="Unten"/>
+		</UniformGrid>
+		
+		
+		<!--ViewBox-->
+		<!--Skaliert Elemente die enthalten sind wie ein Image-->
+		<Viewbox Height="50">
+			<Button Content="Test"/>
+		</Viewbox>
+		
+		
+		<!--Border-->
+		<!--Umgibt beliebige UI-Elemente mit einem Rahmen-->
+		<!--WICHTIG: Kann nur genau ein Element umrahmen-->
+		<!--Bei mehreren Element muss ein Layoutcontainer enthalten sein-->
+		<Border BorderBrush="LightGreen" BorderThickness="3">
+			<TextBlock Text="Grüne Border"/>
+		</Border>
+
+		<!--Um mehrere Elemente mit einer Border zu umgeben, wird ein Layoutcontainer benötigt-->
+		<Border BorderBrush="Aqua" BorderThickness="5" CornerRadius="10" Padding="5" Margin="5">
+			<StackPanel>
+				<Button Content="Rahmen"/>
+				<Button Content="Rahmen"/>
+				<Button Content="Rahmen"/>
+			</StackPanel>
+		</Border>
+
+
+		<!--ScrollViewer-->
+		<!--Macht die unterliegenden Komponenten scrollbar-->
+		<!--WICHTIG: Der ScrollViewer muss eine fixe Höhe haben-->
+		<!--Diese Höhe kommt normalerweise von der Oberkomponente-->
+		<ScrollViewer VerticalScrollBarVisibility="Auto"
+					  HorizontalScrollBarVisibility="Auto"
+					  Height="100">
+			<TextBlock Text="wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww"/>
+		</ScrollViewer>
+	</StackPanel>
+</Window>

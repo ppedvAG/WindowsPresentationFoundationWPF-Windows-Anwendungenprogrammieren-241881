@@ -2,10 +2,10 @@
 
 namespace M000;
 
-public partial class MainWindow : Window
+public partial class PersonenDialog : Window
 {
 
-	public MainWindow()
+	public PersonenDialog()
 	{
 		InitializeComponent();
 	}
