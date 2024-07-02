@@ -1,0 +1,3 @@
+﻿Einstellung1=123
+Einstellung2=Hallo
+Einstellung3=True
