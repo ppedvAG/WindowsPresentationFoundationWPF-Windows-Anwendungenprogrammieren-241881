@@ -1,0 +1,155 @@
+﻿<Window x:Class="M002.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:M002"
+        mc:Ignorable="d"
+		WindowStartupLocation="CenterScreen"
+		Topmost="True"
+        Title="MainWindow" Height="800" Width="300">
+    <StackPanel>
+		<!--TextBlock-->
+		<!--Zeigt Text an-->
+		<TextBlock Text="Hallo Welt"
+				   Background="Aqua"
+				   Foreground="Green"
+				   TextAlignment="Center"
+				   FontSize="30"
+				   Name="Output"/>
+		
+		
+		<!--Button-->
+		<!--Userinteraktion-->
+		<!--Zwei wichtige Eigenschaften: Content, Click-->
+		<Button Content="Test"
+				Click="Button_Click"
+				IsEnabled="False"/>
+
+		<!--Button mit komplexem Content (Button im Button)-->
+		<Button>
+			<Button.Content>
+				<Button Content="Test2"/>
+			</Button.Content>
+		</Button>
+		
+		
+		<!--Image-->
+		<!--Zeigt ein Bild an-->
+		<!--Zwei wichtige Eigenschaften: Source, Stretch-->
+		<Image Source=".\ppedv-Logo.png"
+			   Stretch="Fill"/>
+		
+		
+		<!--TextBox-->
+		<!--Nimmt Eingaben vom Benutzer-->
+		<!--Zwei wichtige Eigenschaften: Text, Name-->
+		<TextBox Name="Input"
+				 TextWrapping="Wrap"
+				 AcceptsReturn="True"
+				 AcceptsTab="True"
+				 KeyDown="Input_KeyDown"/>
+		
+		<!--Aufgabenstellung: Wenn der Button geklickt wird, soll der Text vom User in Output erscheinen-->
+		<Button Content="Eingabe übernehmen"
+				Click="Button_Click_1"/>
+		
+		
+		<!--ComboBox-->
+		<!--Auch Dropdown genannt-->
+		<!--Gibt eine Auswahl von Elementen und der User kann eines davon auswählen-->
+		<!--Wichtige Eigenschaften: ItemsSource, Selected..., SelectionChanged-->
+		<ComboBox>
+			<ComboBoxItem Content="Test1"/>
+			<ComboBoxItem Content="Test2"/>
+			<ComboBoxItem Content="Test3"/>
+		</ComboBox>
+
+		<ComboBox Name="CB"
+				  SelectionChanged="CB_SelectionChanged"/>
+		
+		
+		<!--CheckBox-->
+		<!--Klickbares Feld, welches einen Haken hat oder nicht-->
+		<!--Wichtige Eigenschaften: IsChecked, Checked, Unchecked-->
+		<CheckBox Content="Hallo"
+				  IsChecked="True"/>
+
+
+		<!--RadioButton-->
+		<!--Klickbares Feld, welches andere RadioButtons wieder ausschalten kann-->
+		<!--Wichtige Eigenschaft: GroupName-->
+		<RadioButton Content="Ein paar RadioButtons" GroupName="RB" IsChecked="True"/>
+		<RadioButton Content="Ein paar RadioButtons" GroupName="RB"/>
+		<RadioButton Content="Ein paar RadioButtons" GroupName="RB"/>
+
+
+		<!--ToggleButton-->
+		<!--Button, welcher geklickt bleibt-->
+		<ToggleButton Content="Test"
+					  IsChecked="True"/>
+
+
+		<!--Slider-->
+		<!--Bereich von X bis Y-->
+		<!--Wichtige Eigenschaften: Minimum, Maximum, Value-->
+		<!--Wichtige Eigenschaften 2: TickFrequency, IsSnapToTickEnabled, Ticks-->
+		<TextBlock Name="SliderOutput"
+				   FontSize="30"/>
+		<Slider Minimum="-50" Maximum="50" Value="0"
+				TickFrequency="5" IsSnapToTickEnabled="True"
+				TickPlacement="BottomRight" Foreground="Black"
+				ValueChanged="Slider_ValueChanged"/> <!--Standard: 0 bis 10 mit Kommazahlen-->
+
+		<!--Unregelmäßige Abstände mit der Ticks Eigenschaft-->
+		<!--z.B. 1, 10, 100, 1000-->
+		<Slider Ticks="1, 10, 100, 1000"
+				TickPlacement="BottomRight"
+				IsSnapToTickEnabled="True"
+				Foreground="Black"/>
+		
+		
+		<!--ProgressBar-->
+		<!--Zeigt einen Fortschritt an-->
+		<!--Wichtige Eigenschaften: Minimum, Maximum, Value, IsIndeterminate-->
+		<ProgressBar Height="30" Minimum="0" Maximum="50" Value="10"
+					 IsIndeterminate="False"
+					 Foreground="Aqua"/> <!--Standard: 0 bis 100-->
+		
+		
+		<!--Menu, MenuItem-->
+		<!--Ermöglicht, ein Menü zu definiert-->
+		<!--MenuItems müssen verschachtelt werden-->
+		<Menu>
+			<MenuItem Header="File">
+				<MenuItem Header="New">
+					<MenuItem Header="Project"/>
+					<MenuItem Header="Repo"/>
+					<MenuItem Header="File"/>
+					<MenuItem Header="Project from existing Code"/>
+				</MenuItem>
+				<MenuItem Header="Exit" Click="MenuItem_Click"/>
+			</MenuItem>
+			<MenuItem Header="Edit"/>
+			<MenuItem Header="View"/>
+			<MenuItem Header="Git"/>
+			<MenuItem>
+				<MenuItem.Header>
+					<Button Content="Search"/>
+				</MenuItem.Header>
+			</MenuItem>
+			<MenuItem>
+				<MenuItem.HeaderTemplate>
+					<DataTemplate>
+						<TextBlock Background="White" Text="Hallo Welt" Padding="2"/>
+					</DataTemplate>
+				</MenuItem.HeaderTemplate>
+			</MenuItem>
+			<MenuItem>
+				<MenuItem.Header>
+					<TextBlock Background="White" Text="Hallo Welt" Padding="2"/>
+				</MenuItem.Header>
+			</MenuItem>
+		</Menu>
+	</StackPanel>
+</Window>
