@@ -1,0 +1,134 @@
+﻿<Window x:Class="M004.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:M004"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800"
+		WindowStartupLocation="CenterScreen"
+		Topmost="True"
+		FontSize="40">
+	<Window.Resources>
+		<BooleanToVisibilityConverter x:Key="BV"/>
+		<local:DoubleToBrushConverter x:Key="DBC"/>
+		<local:ScoreToColorConverter x:Key="SCC"/>
+	</Window.Resources>
+    <StackPanel>
+		<!--Bindings-->
+		<!--Zwei Arten: PropertyBinding, DataBinding-->
+		<!--Ein Binding stellt eine Verbindung zwischen zwei Endpunkten her-->
+		<!--PropertyBinding: 2 GUI-Elemente als Endpunkte-->
+		<!--DataBinding: Ein GUI-Element und ein Backend Property ({ get; set; })-->
+		<!--WICHTIG: Bindings werden immer am Ziel definiert-->
+		
+		<!--Aufgabenstellung: Einen TextBlock und einen Slider verbinden-->
+		<TextBlock>  <!--Im TextBlock ein Binding auf den Slider definieren-->
+			<TextBlock.Text>
+				<!--ElementName: Name des anderen Elements-->
+				<!--Path: Das Property des anderen Elements, welches beim Binding übertragen werden soll-->
+				<Binding ElementName="TestSlider" Path="Value"/>
+			</TextBlock.Text>
+		</TextBlock>
+		<Slider Name="TestSlider"/>
+		
+		<!--Binding Mode-->
+		<!--Der Mode bestimmt, die Richtung des Bindings-->
+		<!--Standard: TwoWay-->
+		<!--Mit OneWay und OneWayToSource können Bindings nur in eine Richtung statt in beide Richtungen durchgeführt werden-->
+		<TextBox>
+			<TextBox.Text>
+				<Binding ElementName="TB2" Path="Text"/>
+			</TextBox.Text>
+		</TextBox>
+		<TextBox Name="TB2"/>
+		
+		<!--UpdateSourceTrigger-->
+		<!--Bestimmt, wann das Binding aktualisiert wird-->
+		<!--Drei Modi: LostFocus, PropertyChanged, Explicit-->
+		<!--Standard: Abhängig von Komponente-->
+		<!--TextBox: LostFocus, Slider: PropertyChanged-->
+		<TextBox Name="ExplicitBinding">
+			<TextBox.Text>
+				<Binding ElementName="TB3" Path="Text" UpdateSourceTrigger="Explicit"/>
+			</TextBox.Text>
+		</TextBox>
+		<TextBox Name="TB3"/>
+		
+		<!--Explicit: Update muss im Backend erzwungen werden-->
+		<!--Beispiel: Button Update-->
+		<Button Click="Button_Click" Content="Explicit"/>
+		
+		<!--StringFormat-->
+		<!--Wert vor dem Senden bearbeiten-->
+		<TextBlock>
+			<TextBlock.Text>
+				<!--Aufgabenstellung: Zahl: vor den Wert schreiben-->
+				<!--{0} ist der beim Binding übertragene Wert-->
+				<Binding ElementName="TestSlider2" Path="Value" StringFormat="Zahl: {0}"/>
+			</TextBlock.Text>
+		</TextBlock>
+		<Slider Name="TestSlider2"/>
+		
+		<!--Binding per Markup-Extension-->
+		<!--Kurzform zu dem separaten XML-Tag-->
+		<!--{ Binding <Feldname>=<Wert>, ... }-->
+		<TextBlock Text="{Binding ElementName=TestSlider3, Path=Value, StringFormat='Zahl: {0}'}"/>
+		<Slider Name="TestSlider3"/>
+		
+		<!--Converter-->
+		<!--Übersetzt bei einem Binding den gesendeten Wert zu einem anderen Wert-->
+		<!--Intern werden verschiedene Converter verwendet-->
+		<!--z.B. TextBox zu Slider-->
+		<TextBox Name="TB" Text="0"/>
+		<Slider Value="{Binding ElementName=TB, Path=Text}"/>  <!--Text: string, Value: double -> nicht kompatibel-->
+		<!--Intern wird automatisch hier ein Converter eingesetzt-->
+		
+		<!--Beispiel: CheckBox die einen Button sichtbar/unsichtbar macht-->
+		<CheckBox Name="CB"/>
+		<Button Visibility="{Binding ElementName=CB, Path=IsChecked, Converter={StaticResource BV}}" Content="Visible"/> <!--Boolean und Visibility sind nicht kompatibel-->
+		<!--Lösung: BooleanToVisibilityConverter-->
+			
+		<!--Resourcen: Global angelegte Objekte, welche per StaticResource eingebunden werden können-->
+		<!--Drei Schritte: -->
+		<!--Resource anlegen (<Window.Resources>)-->
+		<!--Resource einen Key geben-->
+		<!--Resource einbinden-->
+			
+		<!--Beispiel: Slider zu Backgroundfarbe-->
+		<TextBlock Background="{Binding ElementName=BGSlider, Path=Value, Converter={StaticResource DBC}}"/>  <!--Double und Brush sind nicht kompatibel-->
+		<Slider Name="BGSlider" Maximum="255"/>
+			
+		<!--Beispiel: Punktzahl von 0 bis 100, Farbe von Rot bis Grün-->
+		<TextBlock Text="{Binding ElementName=Punktzahl, Path=Value}"
+				   Background="{Binding ElementName=Punktzahl, Path=Value, Converter={StaticResource SCC}}"/>
+		<Slider Name="Punktzahl" Maximum="100"
+				TickFrequency="1" IsSnapToTickEnabled="True"/>
+			
+		<!--MultiBinding-->
+		<!--Binding, welches nicht 1:1 sondern 1:n bindet-->
+		<!--d.h. wir haben mehrere Quellen und am Ziel kommen mehrere Werte hinaus-->
+		<!--Beispiel: 4 Slider zu einem Margin-->
+		<StackPanel>
+			<Slider Name="LSlider" Maximum="50"/>
+			<Slider Name="TSlider" Maximum="50"/>
+			<Slider Name="RSlider" Maximum="50"/>
+			<Slider Name="BSlider" Maximum="50"/>
+		</StackPanel>
+		<Button Content="Hallo">
+			<Button.Margin>
+				<!--MultiBinding benötigt immer einen Converter-->
+				<MultiBinding>
+					<Binding ElementName="LSlider" Path="Value"/>
+					<Binding ElementName="TSlider" Path="Value"/>
+					<Binding ElementName="RSlider" Path="Value"/>
+					<Binding ElementName="BSlider" Path="Value"/>
+					<MultiBinding.Converter>
+						<local:FourValueToMarginConverter/>
+					</MultiBinding.Converter>
+				</MultiBinding>
+			</Button.Margin>
+		</Button>
+		<Separator/>
+	</StackPanel>
+</Window>

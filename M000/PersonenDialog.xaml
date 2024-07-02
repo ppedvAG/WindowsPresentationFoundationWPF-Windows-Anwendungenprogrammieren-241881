@@ -4,7 +4,7 @@
         xmlns:local="clr-namespace:M000"
         Title="Personendialog"
 		Height="450"
-		Width="300"
+		Width="350"
 		ResizeMode="NoResize"
 		Topmost="True"
 		SizeToContent="Height"
@@ -17,26 +17,86 @@
 		</LinearGradientBrush>
 	</Window.Background>
 	<StackPanel Margin="5">
-		<TextBlock Text="Vorname: "/>
-		<TextBox/>
-		<TextBlock Text="Nachname: "/>
-		<TextBox/>
-		<TextBlock Text="Geburtsdatum: "/>
-		<DatePicker/>
-		<TextBlock Text="Verheiratet: "/>
-		<CheckBox/>
-		<TextBlock Text="Lieblingsfarbe: "/>
-		<ComboBox>
-			<ComboBoxItem Content="Rot" Foreground="Red"/>
-			<ComboBoxItem Content="Gelb" Foreground="Yellow"/>
-			<ComboBoxItem Content="Grün" Foreground="Green"/>
-			<ComboBoxItem Content="Blau" Foreground="Blue"/>
-		</ComboBox>
-		<TextBlock Text="Geschlecht: "/>
-		<RadioButton GroupName="G" Content="M"/>
-		<RadioButton GroupName="G" Content="W"/>
-		<RadioButton GroupName="G" Content="D"/>
-		<Button Content="OK"/>
-		<Button Content="Abbrechen"/>
+		<UniformGrid Columns="2" Margin="0 0 0 5">
+			<TextBlock Text="Vorname: "/>
+			<TextBox/>
+		</UniformGrid>
+		<UniformGrid Columns="2" Margin="0 0 0 5">
+			<TextBlock Text="Nachname: "/>
+			<TextBox/>
+		</UniformGrid>
+		<UniformGrid Columns="2" Margin="0 0 0 5">
+			<TextBlock Text="Geburtsdatum: "/>
+			<DatePicker/>
+		</UniformGrid>
+		<UniformGrid Columns="2" Margin="0 0 0 5">
+			<TextBlock Text="Verheiratet: "/>
+			<CheckBox/>
+		</UniformGrid>
+		<UniformGrid Columns="2" Margin="0 0 0 5">
+			<TextBlock Text="Lieblingsfarbe: "/>
+			<ComboBox>
+				<ComboBoxItem Content="Rot" Foreground="Red"/>
+				<ComboBoxItem Content="Gelb" Foreground="Yellow"/>
+				<ComboBoxItem Content="Grün" Foreground="Green"/>
+				<ComboBoxItem Content="Blau" Foreground="Blue"/>
+			</ComboBox>
+		</UniformGrid>
+		<UniformGrid Columns="2" Margin="0 0 0 5">
+			<TextBlock Text="Geschlecht: "/>
+			<StackPanel>
+				<RadioButton GroupName="G" Content="M"/>
+				<RadioButton GroupName="G" Content="W"/>
+				<RadioButton GroupName="G" Content="D"/>
+			</StackPanel>
+		</UniformGrid>
+		<UniformGrid Columns="2" Margin="0 0 0 5">
+			<Button Content="OK" Margin="0 0 2.5 0"/>
+			<Button Content="Abbrechen" Margin="2.5 0 0 0"/>
+		</UniformGrid>
 	</StackPanel>
+
+
+	<!--<StackPanel Margin="5">
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="1*"/>
+				<ColumnDefinition Width="2*"/>
+			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition/>
+				<RowDefinition/>
+				<RowDefinition/>
+				<RowDefinition/>
+				<RowDefinition/>
+				<RowDefinition/>
+				<RowDefinition/>
+			</Grid.RowDefinitions>
+			<TextBlock Text="Vorname: " Margin="0 0 0 5" VerticalAlignment="Center"/>
+			<TextBox Grid.Column="1" Margin="0 0 0 5" VerticalAlignment="Center"/>
+			<TextBlock Text="Nachname: " Grid.Row="1" Margin="0 0 0 5" VerticalAlignment="Center"/>
+			<TextBox Grid.Column="1" Grid.Row="1" Margin="0 0 0 5" VerticalAlignment="Center"/>
+			<TextBlock Text="Geburtsdatum: " Grid.Row="2" Margin="0 0 0 5" VerticalAlignment="Center"/>
+			<DatePicker Grid.Column="1" Grid.Row="2" Margin="0 0 0 5" VerticalAlignment="Center"/>
+			<TextBlock Text="Verheiratet: " Grid.Row="3" Margin="0 0 0 5" VerticalAlignment="Center"/>
+			<CheckBox Grid.Column="1" Grid.Row="3" Margin="0 0 0 5" VerticalAlignment="Center"/>
+			<TextBlock Text="Lieblingsfarbe: " Grid.Row="4" Margin="0 0 0 5" VerticalAlignment="Center"/>
+			<ComboBox Grid.Column="1" Grid.Row="4" Margin="0 0 0 5" VerticalAlignment="Center">
+				<ComboBoxItem Content="Rot" Foreground="Red"/>
+				<ComboBoxItem Content="Gelb" Foreground="Yellow"/>
+				<ComboBoxItem Content="Grün" Foreground="Green"/>
+				<ComboBoxItem Content="Blau" Foreground="Blue"/>
+			</ComboBox>
+			<TextBlock Text="Geschlecht: " Grid.Row="5" Margin="0 0 0 5" VerticalAlignment="Center"/>
+			<StackPanel Grid.Column="1" Grid.Row="5" Margin="0 0 0 5" VerticalAlignment="Center">
+				<RadioButton GroupName="G" Content="M"/>
+				<RadioButton GroupName="G" Content="W"/>
+				<RadioButton GroupName="G" Content="D"/>
+			</StackPanel>
+			<UniformGrid Grid.Row="6" Grid.ColumnSpan="2" Columns="2" VerticalAlignment="Center">
+				<Button Content="OK" Margin="0 0 2.5 0"/>
+				<Button Content="Abbrechen" Margin="2.5 0 0 0"/>
+			</UniformGrid>
+		</Grid>
+	</StackPanel>-->
 </Window>
