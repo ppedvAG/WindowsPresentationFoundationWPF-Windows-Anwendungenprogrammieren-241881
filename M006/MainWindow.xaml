@@ -1,0 +1,100 @@
+﻿<Window x:Class="M006.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+		
+        xmlns:local="clr-namespace:M006"
+		xmlns:conv="clr-namespace:M006.Converter"
+		xmlns:sys="clr-namespace:System;assembly=System.Runtime"
+		
+		DataContext="{Binding RelativeSource={RelativeSource Self}}"
+        Title="MainWindow" Height="800" Width="300"
+		WindowStartupLocation="CenterScreen"
+		Topmost="True">
+	<Window.Resources>
+		<SolidColorBrush Color="Aqua" x:Key="StandardBackground"/>
+		<conv:TestConverter x:Key="TC"/>
+		<sys:Double x:Key="StandardFontSize">30</sys:Double>
+
+		
+		<!--Style ohne Key: globaler Style-->
+		<Style TargetType="Button">
+			<!--Jeder Style besteht immer aus Settern-->
+			<Setter Property="FontSize" Value="40"/>
+			<Setter Property="Background" Value="Aqua"/>
+			<Setter Property="Margin" Value="5"/>
+		</Style>
+
+
+		<!--Style mit Key: Style der spezifisch angewandt werden muss-->
+		<Style TargetType="Button" x:Key="BtnStyle">
+			<!--Jeder Style besteht immer aus Settern-->
+			<Setter Property="FontSize" Value="40"/>
+			<Setter Property="Background" Value="Red"/>
+			<Setter Property="Margin" Value="5"/>
+		</Style>
+	</Window.Resources>
+	<StackPanel>
+		<!--Resources-->
+		<!--Verschiedene Objekte global ablegen und in der UI mehrmals verwenden-->
+		<!--Beispiele: Converter, Styles, Templates, ...-->
+		<!--Jedes UI-Element kann Resources haben (<Element>.Resources)-->
+
+		<!--Resourcen verwenden-->
+		<!--StaticResource, DynamicResource-->
+		<!--StaticResource holt sich die Resource bei erster Verwendung, und aktualisiert danach nicht mehr-->
+		<!--DynamicResource passt die Resource bei Veränderung an-->
+		<Button Background="{StaticResource StandardBackground}" Content="Test"/>
+		<Button Background="{DynamicResource StandardBackground}" Content="Test"/>
+
+		<ComboBox SelectedValue="{Binding Path=Resources[StandardBackground], Mode=OneWayToSource}" SelectedValuePath="Foreground">
+			<ComboBoxItem Content="Rot" Foreground="Red"/>
+			<ComboBoxItem Content="Gelb" Foreground="Yellow"/>
+			<ComboBoxItem Content="Grün" Foreground="Green"/>
+			<ComboBoxItem Content="Blau" Foreground="Blue"/>
+		</ComboBox>
+		<Button Click="Button_Click" Content="Test"/>
+
+		<!--Beispiel: Slider mit Double und Static-/DynamicResource-->
+		<TextBlock FontSize="{StaticResource StandardFontSize}" Text="Hallo Welt"/>
+		<TextBlock FontSize="{DynamicResource StandardFontSize}" Text="Hallo Welt"/>
+		<Slider Value="{Binding Resources[StandardFontSize]}" Maximum="50" Minimum="10"/>
+
+		<!--x:Static-->
+		<!--Statische Einbindung wie im Backend (z.B. DateTime.Now, ...)-->
+		<DatePicker SelectedDate="{x:Static sys:DateTime.Now}"/>
+		
+		<!--ResourceDictionaries-->
+		<!--Resources extern anlegen (in einer eigenen Datei)-->
+		<!--Können über App.xaml (global) oder im Window direkt (lokal) eingebunden werden-->
+		<TextBlock Foreground="{StaticResource GlobalFontColor}"
+				   Background="{StaticResource GlobalBackgroundColor}"
+				   Text="Hallo"/>  <!--RD hier global eingebunden (siehe App.xaml)-->
+		
+		<!--Styles-->
+		<!--Bieten die Möglichkeit, global ein Aussehen für verschiedene Komponenten festzulegen-->
+		<!--Zwei verschiedene Typen von Styles: Styles mit Key, Style ohne Key-->
+		<!--WICHTIG: TargetType nicht vergessen-->
+		
+		<!--Style lokal bei der Komponente selbst einbinden-->
+		<Button Content="Hallo">
+			<Button.Style>
+				<Style TargetType="Button">
+					<!--Jeder Style besteht immer aus Settern-->
+					<Setter Property="FontSize" Value="40"/>
+					<Setter Property="Background" Value="Aqua"/>
+					<Setter Property="Margin" Value="5"/>
+				</Style>
+			</Button.Style>
+		</Button>
+
+		<!--Style mit Key anwenden-->
+		<Button Style="{DynamicResource BtnStyle}" Content="Direkt"/>
+
+		<!--Globalen Style entfernen mittels x:Null-->
+		<Button Content="Kein Style" Style="{x:Null}"/>
+		<Button Content="Kein BG" Background="{x:Null}"/>
+	</StackPanel>
+</Window>
