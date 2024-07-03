@@ -10,8 +10,14 @@ public partial class MainWindow : Window
 	public MainWindow()
 	{
 		SettingsFile = File.ReadAllLines("Settings.txt")
-			.Select(e => new Setting() { Name = e.Split("=")[0], Value = e.Split("=")[1] })
-			.ToList();
+			.Select<string, Setting>(e =>
+			{
+				string[] parts = e.Split("=");
+				if (bool.TryParse(parts[1], out bool result))
+					return new BooleanSetting() { Name = parts[0], Value = result };
+				else
+					return new TextSetting() { Name = parts[0], Value = parts[1] };
+			}).ToList();
 		InitializeComponent();
 	}
 }

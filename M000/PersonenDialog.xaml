@@ -2,6 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:M000"
+		DataContext="{Binding RelativeSource={RelativeSource Self}}"
         Title="Personendialog"
 		Height="450"
 		Width="350"
@@ -10,6 +11,9 @@
 		SizeToContent="Height"
 		WindowStartupLocation="CenterScreen"
 		FontSize="14">
+	<Window.Resources>
+		<local:GenderConverter x:Key="GC"/>
+	</Window.Resources>
 	<Window.Background>
 		<LinearGradientBrush>
 			<GradientStop Color="Aqua"/>
@@ -19,23 +23,23 @@
 	<StackPanel Margin="5">
 		<UniformGrid Columns="2" Margin="0 0 0 5">
 			<TextBlock Text="Vorname: "/>
-			<TextBox/>
+			<TextBox Text="{Binding person.Vorname}"/>
 		</UniformGrid>
 		<UniformGrid Columns="2" Margin="0 0 0 5">
 			<TextBlock Text="Nachname: "/>
-			<TextBox/>
+			<TextBox Text="{Binding person.Nachname}"/>
 		</UniformGrid>
 		<UniformGrid Columns="2" Margin="0 0 0 5">
 			<TextBlock Text="Geburtsdatum: "/>
-			<DatePicker/>
+			<DatePicker SelectedDate="{Binding person.GebDat}"/>
 		</UniformGrid>
 		<UniformGrid Columns="2" Margin="0 0 0 5">
 			<TextBlock Text="Verheiratet: "/>
-			<CheckBox/>
+			<CheckBox IsChecked="{Binding person.Verheiratet}"/>
 		</UniformGrid>
 		<UniformGrid Columns="2" Margin="0 0 0 5">
 			<TextBlock Text="Lieblingsfarbe: "/>
-			<ComboBox>
+			<ComboBox SelectedValue="{Binding person.Lieblingsfarbe}" SelectedValuePath="Foreground.Color">
 				<ComboBoxItem Content="Rot" Foreground="Red"/>
 				<ComboBoxItem Content="Gelb" Foreground="Yellow"/>
 				<ComboBoxItem Content="Grün" Foreground="Green"/>
@@ -45,13 +49,14 @@
 		<UniformGrid Columns="2" Margin="0 0 0 5">
 			<TextBlock Text="Geschlecht: "/>
 			<StackPanel>
-				<RadioButton GroupName="G" Content="M"/>
-				<RadioButton GroupName="G" Content="W"/>
-				<RadioButton GroupName="G" Content="D"/>
+				<RadioButton GroupName="G" Content="M" IsChecked="{Binding person.Geschlecht, Converter={StaticResource GC}, ConverterParameter={x:Static local:Geschlecht.M}}"/>
+				<RadioButton GroupName="G" Content="W" IsChecked="{Binding person.Geschlecht, Converter={StaticResource GC}, ConverterParameter={x:Static local:Geschlecht.W}}"/>
+				<RadioButton GroupName="G" Content="D" IsChecked="{Binding person.Geschlecht, Converter={StaticResource GC}, ConverterParameter={x:Static local:Geschlecht.D}}"/>
 			</StackPanel>
+			<!--<ComboBox SelectedValue="{Binding person.Geschlecht}" ItemsSource="{Binding Geschlechter}"/>-->
 		</UniformGrid>
 		<UniformGrid Columns="2" Margin="0 0 0 5">
-			<Button Content="OK" Margin="0 0 2.5 0"/>
+			<Button Content="OK" Margin="0 0 2.5 0" Click="Button_Click"/>
 			<Button Content="Abbrechen" Margin="2.5 0 0 0"/>
 		</UniformGrid>
 	</StackPanel>

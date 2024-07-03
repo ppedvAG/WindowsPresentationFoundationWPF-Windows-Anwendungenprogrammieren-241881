@@ -3,10 +3,24 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:M000"
 		DataContext="{Binding RelativeSource={RelativeSource Self}}"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800"
+		WindowStartupLocation="CenterScreen"
+		Topmost="True">
 	<!--Kommentar-->
 	<Window.Resources>
 		<local:Test2Converter x:Key="Test"/>
+		<DataTemplate DataType="{x:Type local:TextSetting}">
+			<StackPanel>
+				<TextBlock Text="{Binding Path=Name}"/>
+				<TextBlock Text="{Binding Path=Value}"/>
+			</StackPanel>
+		</DataTemplate>
+		<DataTemplate DataType="{x:Type local:BooleanSetting}">
+			<StackPanel>
+				<TextBlock Text="{Binding Path=Name}"/>
+				<CheckBox IsChecked="{Binding Path=Value}"/>
+			</StackPanel>
+		</DataTemplate>
 	</Window.Resources>
 	<Grid Background="Green"
 		  Margin="5">
@@ -14,14 +28,6 @@
 				 Foreground="White"
 				 FontSize="20"
 				 FontWeight="Bold">
-			<ListBox.ItemTemplate>
-				<DataTemplate DataType="local:Setting">
-					<StackPanel>
-						<TextBlock Text="{Binding Path=Name}"/>
-						<TextBlock Text="{Binding Path=Value}"/>
-					</StackPanel>
-				</DataTemplate>
-			</ListBox.ItemTemplate>
 			<ListBox.Background>
 				<LinearGradientBrush>
 					<GradientStop Offset="0" Color="Red"/>
