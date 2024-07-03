@@ -8,12 +8,12 @@ public class ARGBConverter : IMultiValueConverter
 {
 	public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
 	{
-		//double[] d = values.OfType<double>().ToArray();
-		//byte[] b = d.Select(e => (byte) e).ToArray();
+        //double[] d = values.OfType<double>().ToArray();
+        //byte[] b = d.Select(e => (byte) e).ToArray();
 
-		//byte[] b = values.OfType<double>().Select(e => (byte) e).ToArray();
+        //byte[] b = values.OfType<double>().Select(e => (byte) e).ToArray();
 
-		byte[] b = values.Select(e => (byte) (double) e).ToArray();
+        byte[] b = values.Select(e => (byte) (double) e).ToArray();
 		Color c = Color.FromArgb(b[0], b[1], b[2], b[3]);
 		return new SolidColorBrush(c);
 	}
