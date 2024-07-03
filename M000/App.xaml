@@ -4,6 +4,6 @@
              xmlns:local="clr-namespace:M000"
              StartupUri="PersonenDialog.xaml">
     <Application.Resources>
-         
-    </Application.Resources>
+		<ResourceDictionary Source="GlobalStyles.xaml"/>
+	</Application.Resources>
 </Application>

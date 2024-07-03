@@ -1,0 +1,15 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<Style TargetType="FrameworkElement" x:Key="FEStyle">
+		<Setter Property="VerticalAlignment" Value="Center"/>
+	</Style>
+	<Style TargetType="TextBlock" BasedOn="{StaticResource FEStyle}"/>
+	<Style TargetType="UniformGrid" BasedOn="{StaticResource FEStyle}">
+		<Setter Property="Columns" Value="2"/>
+		<Setter Property="Margin" Value="0 0 0 5"/>
+	</Style>
+	<Style TargetType="Window" x:Key="WindowStyle">
+		<Setter Property="FontSize" Value="14"/>
+		<Setter Property="DataContext" Value="{Binding RelativeSource={RelativeSource Self}}"/>
+	</Style>
+</ResourceDictionary>

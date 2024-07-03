@@ -2,7 +2,6 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:M000"
-		DataContext="{Binding RelativeSource={RelativeSource Self}}"
         Title="Personendialog"
 		Height="450"
 		Width="350"
@@ -10,7 +9,7 @@
 		Topmost="True"
 		SizeToContent="Height"
 		WindowStartupLocation="CenterScreen"
-		FontSize="14">
+		Style="{StaticResource WindowStyle}">
 	<Window.Resources>
 		<local:GenderConverter x:Key="GC"/>
 	</Window.Resources>
@@ -21,23 +20,23 @@
 		</LinearGradientBrush>
 	</Window.Background>
 	<StackPanel Margin="5">
-		<UniformGrid Columns="2" Margin="0 0 0 5">
+		<UniformGrid>
 			<TextBlock Text="Vorname: "/>
 			<TextBox Text="{Binding person.Vorname}"/>
 		</UniformGrid>
-		<UniformGrid Columns="2" Margin="0 0 0 5">
+		<UniformGrid>
 			<TextBlock Text="Nachname: "/>
 			<TextBox Text="{Binding person.Nachname}"/>
 		</UniformGrid>
-		<UniformGrid Columns="2" Margin="0 0 0 5">
+		<UniformGrid>
 			<TextBlock Text="Geburtsdatum: "/>
 			<DatePicker SelectedDate="{Binding person.GebDat}"/>
 		</UniformGrid>
-		<UniformGrid Columns="2" Margin="0 0 0 5">
+		<UniformGrid>
 			<TextBlock Text="Verheiratet: "/>
 			<CheckBox IsChecked="{Binding person.Verheiratet}"/>
 		</UniformGrid>
-		<UniformGrid Columns="2" Margin="0 0 0 5">
+		<UniformGrid>
 			<TextBlock Text="Lieblingsfarbe: "/>
 			<ComboBox SelectedValue="{Binding person.Lieblingsfarbe}" SelectedValuePath="Foreground.Color">
 				<ComboBoxItem Content="Rot" Foreground="Red"/>
@@ -46,7 +45,7 @@
 				<ComboBoxItem Content="Blau" Foreground="Blue"/>
 			</ComboBox>
 		</UniformGrid>
-		<UniformGrid Columns="2" Margin="0 0 0 5">
+		<UniformGrid>
 			<TextBlock Text="Geschlecht: "/>
 			<StackPanel>
 				<RadioButton GroupName="G" Content="M" IsChecked="{Binding person.Geschlecht, Converter={StaticResource GC}, ConverterParameter={x:Static local:Geschlecht.M}}"/>
@@ -55,7 +54,7 @@
 			</StackPanel>
 			<!--<ComboBox SelectedValue="{Binding person.Geschlecht}" ItemsSource="{Binding Geschlechter}"/>-->
 		</UniformGrid>
-		<UniformGrid Columns="2" Margin="0 0 0 5">
+		<UniformGrid>
 			<Button Content="OK" Margin="0 0 2.5 0" Click="Button_Click"/>
 			<Button Content="Abbrechen" Margin="2.5 0 0 0"/>
 		</UniformGrid>
