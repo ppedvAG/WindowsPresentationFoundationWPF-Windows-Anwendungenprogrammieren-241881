@@ -5,6 +5,7 @@
 		xmlns:sys="clr-namespace:System;assembly=System.Runtime"
 		xmlns:valid="clr-namespace:M000.Validation"
 		xmlns:conv="clr-namespace:M000.Converter"
+		xmlns:M011="clr-namespace:M011;assembly=M011"
         Title="Personendialog"
 		Height="450"
 		Width="350"
@@ -15,7 +16,7 @@
 		Style="{StaticResource WindowStyle}">
 	<Window.Resources>
 		<conv:GenderConverter x:Key="GC"/>
-		
+
 		<ObjectDataProvider x:Key="Odp_Colors" MethodName="GetType" ObjectType="{x:Type sys:Type}">
 			<ObjectDataProvider.MethodParameters>
 				<sys:String>
@@ -56,17 +57,20 @@
 		<UniformGrid>
 			<TextBlock Text="Vorname: "/>
 			<TextBox Text="{valid:Validation Binding={Binding person.Vorname, UpdateSourceTrigger=PropertyChanged}, Rules={StaticResource TextValidations}}"
-					 Validation.ErrorTemplate="{StaticResource ET}"/>
+					 Validation.ErrorTemplate="{StaticResource ET}"
+					 Name="VN"/>
 		</UniformGrid>
 		<UniformGrid>
 			<TextBlock Text="Nachname: "/>
 			<TextBox Text="{valid:Validation Binding={Binding person.Nachname, UpdateSourceTrigger=PropertyChanged}, Rules={StaticResource TextValidations}}"
-					 Validation.ErrorTemplate="{StaticResource ET}"/>
+					 Validation.ErrorTemplate="{StaticResource ET}"
+					 Name="NN"/>
 		</UniformGrid>
 		<UniformGrid>
 			<TextBlock Text="Geburtsdatum: "/>
 			<DatePicker SelectedDate="{valid:Validation Binding={Binding person.GebDat, UpdateSourceTrigger=PropertyChanged}, Rule={StaticResource DateValid}}"
-					 Validation.ErrorTemplate="{StaticResource ET}"/>
+						Validation.ErrorTemplate="{StaticResource ET}"
+						Name="GebDat"/>
 		</UniformGrid>
 		<UniformGrid>
 			<TextBlock Text="Verheiratet: "/>
@@ -74,24 +78,48 @@
 		</UniformGrid>
 		<UniformGrid>
 			<TextBlock Text="Lieblingsfarbe: "/>
-			<ComboBox ItemsSource="{Binding Source={StaticResource Odp_ColorsProperties}}"
+			<StackPanel>
+
+				<CheckBox Content="Vordefinierte Liste" Name="VL"/>
+
+				<ComboBox ItemsSource="{Binding Source={StaticResource Odp_ColorsProperties}}"
 					  SelectedValue="{valid:Validation Binding={Binding person.Lieblingsfarbe, UpdateSourceTrigger=PropertyChanged}, Rule={StaticResource ColorValid}}"
 					  Validation.ErrorTemplate="{StaticResource ET}"
-					  SelectedValuePath="Name">
-				<ComboBox.ItemTemplate>
-					<DataTemplate>
-						<StackPanel Orientation="Horizontal">
-							<Rectangle Fill="{Binding Name}" Width="20" Height="20" Stroke="Black" Margin="0 0 5 0"/>
-							<TextBlock Text="{Binding Name}" VerticalAlignment="Center"/>
-						</StackPanel>
-					</DataTemplate>
-				</ComboBox.ItemTemplate>
-				
-				<!--<ComboBoxItem Content="Rot" Foreground="Red"/>
-				<ComboBoxItem Content="Gelb" Foreground="Yellow"/>
-				<ComboBoxItem Content="Grün" Foreground="Green"/>
-				<ComboBoxItem Content="Blau" Foreground="Blue"/>-->
-			</ComboBox>
+					  SelectedValuePath="Name"
+					  Name="Farbe">
+					<ComboBox.ItemTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Horizontal">
+								<Rectangle Fill="{Binding Name}" Width="20" Height="20" Stroke="Black" Margin="0 0 5 0"/>
+								<TextBlock Text="{Binding Name}" VerticalAlignment="Center"/>
+							</StackPanel>
+						</DataTemplate>
+					</ComboBox.ItemTemplate>
+					<ComboBox.Style>
+						<Style TargetType="ComboBox">
+							<Setter Property="Visibility" Value="Collapsed"/>
+							<Style.Triggers>
+								<DataTrigger Binding="{Binding ElementName=VL, Path=IsChecked}" Value="True">
+									<Setter Property="Visibility" Value="Visible"/>
+								</DataTrigger>
+							</Style.Triggers>
+						</Style>
+					</ComboBox.Style>
+				</ComboBox>
+
+				<M011:ColorPicker Grid.Column="1" PickedColor="{Binding person.Lieblingsfarbe}">
+					<M011:ColorPicker.Style>
+						<Style TargetType="M011:ColorPicker">
+							<Setter Property="Visibility" Value="Visible"/>
+							<Style.Triggers>
+								<DataTrigger Binding="{Binding ElementName=VL, Path=IsChecked}" Value="True">
+									<Setter Property="Visibility" Value="Collapsed"/>
+								</DataTrigger>
+							</Style.Triggers>
+						</Style>
+					</M011:ColorPicker.Style>
+				</M011:ColorPicker>
+			</StackPanel>
 
 			<!--<ComboBox ItemsSource="{local:Colors}"
 					  SelectedValue="{valid:Validation Binding={Binding person.Lieblingsfarbe}, Rule={StaticResource ColorValid}}"
@@ -117,7 +145,24 @@
 			<!--<ComboBox SelectedValue="{Binding person.Geschlecht}" ItemsSource="{Binding Geschlechter}"/>-->
 		</UniformGrid>
 		<UniformGrid>
-			<Button Content="OK" Margin="0 0 2.5 0" Click="Button_Click"/>
+			<Button Content="OK" Margin="0 0 2.5 0" Click="Button_Click">
+				<Button.Style>
+					<Style TargetType="Button">
+						<Setter Property="IsEnabled" Value="False"/>
+						<Style.Triggers>
+							<MultiDataTrigger>
+								<MultiDataTrigger.Conditions>
+									<Condition Binding="{Binding ElementName=VN, Path=(Validation.HasError)}" Value="False"/>
+									<Condition Binding="{Binding ElementName=NN, Path=(Validation.HasError)}" Value="False"/>
+									<Condition Binding="{Binding ElementName=GebDat, Path=(Validation.HasError)}" Value="False"/>
+									<Condition Binding="{Binding ElementName=Farbe, Path=(Validation.HasError)}" Value="False"/>
+								</MultiDataTrigger.Conditions>
+								<Setter Property="IsEnabled" Value="True"/>
+							</MultiDataTrigger>
+						</Style.Triggers>
+					</Style>
+				</Button.Style>
+			</Button>
 			<Button Content="Abbrechen" Margin="2.5 0 0 0"/>
 		</UniformGrid>
 	</StackPanel>

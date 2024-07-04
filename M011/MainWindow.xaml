@@ -1,0 +1,28 @@
+﻿<Window x:Class="M011.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:M011"
+        mc:Ignorable="d"
+		DataContext="{Binding RelativeSource={RelativeSource Self}}"
+        Title="MainWindow" Height="450" Width="800"
+		WindowStartupLocation="CenterScreen"
+		Topmost="True">
+	<StackPanel>
+		<!--UserControl-->
+		<!--Eigene UI-Komponenten designen-->
+		
+		<!--DependencyProperty-->
+		<!--Werden in UserControls benötigt, um Bindings zu ermöglichen-->
+		<!--propdp + Tab + Tab-->
+		<!--WICHTIG: Keinen DataContext setzen, mit ElementName und Path arbeiten-->
+		
+		<!--Aufgabenstellung: ColorPicker als UC definieren und ein Binding von der fertigen Farbe aufs Backend-->
+		<local:ColorPicker PickedColor="{Binding SelectedColor}"/>
+		<Button Click="Button_Click" Content="Test"/>
+		
+		<!--1. DependencyProperty um Bindings zu ermöglichen-->
+		<!--2. FrameworkPropertyMetadata verwenden um verschiedene Effekte zu ermöglichen (vorallem BindsTwoWayByDefault)-->
+	</StackPanel>
+</Window>
