@@ -1,0 +1,8 @@
+<ObjectDataProvider x:Key="Odp_Colors" MethodName="GetType" ObjectType="{x:Type sys:Type}">
+	<ObjectDataProvider.MethodParameters>
+		<sys:String>
+			System.Windows.Media.Colors, PresentationCore, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35
+		</sys:String>
+	</ObjectDataProvider.MethodParameters>
+</ObjectDataProvider>
+<ObjectDataProvider	x:Key="Odp_ColorsProperties" MethodName="GetProperties"	ObjectInstance="{StaticResource Odp_Colors}"/>
