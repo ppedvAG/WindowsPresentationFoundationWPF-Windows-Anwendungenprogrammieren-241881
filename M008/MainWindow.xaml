@@ -1,0 +1,91 @@
+﻿<Window x:Class="M008.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:M008"
+		xmlns:sys="clr-namespace:System;assembly=System.Runtime"
+        mc:Ignorable="d"
+		DataContext="{Binding RelativeSource={RelativeSource Self}}"
+		WindowStartupLocation="CenterScreen"
+		Topmost="True"
+        Title="MainWindow" Height="450" Width="800"
+		FontSize="20">
+	<StackPanel Background="Yellow">
+		<!--MarkupExtension-->
+		<!--Code im XAML zwischen { }-->
+		<!--Beispiele: Binding, StaticResource, TemplateBinding, ...-->
+		
+		<!--Problem: Enum an ComboBox anbinden-->
+		<!--Lösung: Eigene MarkupExtension-->
+		<ComboBox ItemsSource="{Binding EnumWerte}"/>
+		
+		<!--Eigene MarkupExtension-->
+		<ComboBox ItemsSource="{local:Enum EnumType=sys:DayOfWeek}"/>
+			
+		<!--Converter Extension (keine Resource für Converter anlegen)-->
+		<TextBlock Text="{Binding ElementName=ScoreSlider, Path=Value}"
+				   Background="{Binding ElementName=ScoreSlider, Path=Value, Converter={local:Converter ConverterType=local:ScoreToColorConverter}}"/>
+		<Slider Name="ScoreSlider" Maximum="100"/>
+		
+		
+		<!--RelativeBinding-->
+		<!--Binding, bei dem zur Editorzeit nicht bekannt ist, was gebunden werden soll-->
+		<!--Vier Typen: Self, TemplatedParent, FindAncestor, PreviousData-->
+		
+		<!--Self-->
+		<!--Binding an sich selbst-->
+		<!--Aufgabenstellung: Rechteck mit immer Breite == Höhe-->
+		<Rectangle Width="{Binding ElementName=QSlider, Path=Value}"
+				   Height="{Binding RelativeSource={RelativeSource Self}, Path=Width}"
+				   Fill="Aqua"
+				   Stroke="Black"
+				   StrokeThickness="3"/>
+		<Slider Name="QSlider" Minimum="50" Maximum="200"/>
+		
+		
+		<!--TemplatedParent-->
+		<!--Äquivalent zu TemplateBinding-->
+		<Button Content="Hallo">
+			<Button.Template>
+				<ControlTemplate TargetType="Button">
+					<StackPanel>
+						<TextBlock Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Content}"/>
+						<TextBlock Text="{TemplateBinding Content}"/>  <!--Kurzform-->
+					</StackPanel>
+				</ControlTemplate>
+			</Button.Template>
+		</Button>
+		
+		
+		<!--FindAncestor-->
+		<!--Sucht nach einem Parent mit dem gegebenen Typen und/oder nach dem Parent X Level oben-->
+		
+		<!--Beispiel: Suche nach dem Window und entnehme aus diesem die FontSize-->
+		<TextBlock FontSize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=FontSize}"
+				   Text="Hallo Welt"/>
+		<Grid Background="Aqua" Height="200">
+			<Grid Background="LightGreen" Height="100">
+				<Grid Background="Orange" Height="50">
+					<Button Background="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid, AncestorLevel=3}, Path=Background}"
+							Content="Test"
+							Height="25"/>
+				</Grid>
+			</Grid>
+		</Grid>
+		
+		
+		<!--PreviousData-->
+		<!--Nimmt aus einer Listenkomponente den vorherigen Eintrag und nimmt daraus den gegebenen Wert-->
+		<ListBox ItemsSource="{Binding Zahlen}">
+			<ListBox.ItemTemplate>
+				<DataTemplate>
+					<StackPanel Orientation="Horizontal">
+						<TextBlock Text="{Binding .}" Margin="0 0 5 0"/>
+						<TextBlock Text="{Binding RelativeSource={RelativeSource Mode=PreviousData}, StringFormat='Vorheriger Wert: {0}'}"/>
+					</StackPanel>
+				</DataTemplate>
+			</ListBox.ItemTemplate>
+		</ListBox>
+	</StackPanel>
+</Window>
