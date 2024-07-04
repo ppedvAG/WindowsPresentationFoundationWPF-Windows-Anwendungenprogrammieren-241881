@@ -3,6 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:M000"
 		xmlns:sys="clr-namespace:System;assembly=System.Runtime"
+		xmlns:valid="clr-namespace:M000.Validation"
+		xmlns:conv="clr-namespace:M000.Converter"
         Title="Personendialog"
 		Height="450"
 		Width="350"
@@ -12,7 +14,7 @@
 		WindowStartupLocation="CenterScreen"
 		Style="{StaticResource WindowStyle}">
 	<Window.Resources>
-		<local:GenderConverter x:Key="GC"/>
+		<conv:GenderConverter x:Key="GC"/>
 		
 		<ObjectDataProvider x:Key="Odp_Colors" MethodName="GetType" ObjectType="{x:Type sys:Type}">
 			<ObjectDataProvider.MethodParameters>
@@ -23,6 +25,26 @@
 		</ObjectDataProvider>
 
 		<ObjectDataProvider x:Key="Odp_ColorsProperties" MethodName="GetProperties"	ObjectInstance="{StaticResource Odp_Colors}"/>
+
+		<valid:ValidationRuleCollection x:Key="TextValidations">
+			<valid:LengthValidation ValidatesOnTargetUpdated="True"/>
+			<valid:LetterValidation ValidatesOnTargetUpdated="True"/>
+		</valid:ValidationRuleCollection>
+
+		<valid:DateValidation x:Key="DateValid" ValidatesOnTargetUpdated="True"/>
+		<valid:ColorValidation x:Key="ColorValid" ValidatesOnTargetUpdated="True"/>
+
+		<ControlTemplate x:Key="ET">
+			<Border BorderBrush="Red" BorderThickness="3">
+				<StackPanel>
+					<AdornedElementPlaceholder Name="AEP"/>
+					<Popup IsOpen="{Binding ElementName=AEP, Path=AdornedElement.IsMouseOver, Mode=OneWay}">
+						<TextBlock Text="{Binding ElementName=AEP, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}"
+					   Foreground="Red" Background="White"/>
+					</Popup>
+				</StackPanel>
+			</Border>
+		</ControlTemplate>
 	</Window.Resources>
 	<Window.Background>
 		<LinearGradientBrush>
@@ -33,15 +55,18 @@
 	<StackPanel Margin="5">
 		<UniformGrid>
 			<TextBlock Text="Vorname: "/>
-			<TextBox Text="{Binding person.Vorname}"/>
+			<TextBox Text="{valid:Validation Binding={Binding person.Vorname, UpdateSourceTrigger=PropertyChanged}, Rules={StaticResource TextValidations}}"
+					 Validation.ErrorTemplate="{StaticResource ET}"/>
 		</UniformGrid>
 		<UniformGrid>
 			<TextBlock Text="Nachname: "/>
-			<TextBox Text="{Binding person.Nachname}"/>
+			<TextBox Text="{valid:Validation Binding={Binding person.Nachname, UpdateSourceTrigger=PropertyChanged}, Rules={StaticResource TextValidations}}"
+					 Validation.ErrorTemplate="{StaticResource ET}"/>
 		</UniformGrid>
 		<UniformGrid>
 			<TextBlock Text="Geburtsdatum: "/>
-			<DatePicker SelectedDate="{Binding person.GebDat}"/>
+			<DatePicker SelectedDate="{valid:Validation Binding={Binding person.GebDat, UpdateSourceTrigger=PropertyChanged}, Rule={StaticResource DateValid}}"
+					 Validation.ErrorTemplate="{StaticResource ET}"/>
 		</UniformGrid>
 		<UniformGrid>
 			<TextBlock Text="Verheiratet: "/>
@@ -49,7 +74,10 @@
 		</UniformGrid>
 		<UniformGrid>
 			<TextBlock Text="Lieblingsfarbe: "/>
-			<!--<ComboBox ItemsSource="{Binding Source={StaticResource Odp_ColorsProperties}}" SelectedValue="{Binding person.Lieblingsfarbe}" SelectedValuePath="Name">
+			<ComboBox ItemsSource="{Binding Source={StaticResource Odp_ColorsProperties}}"
+					  SelectedValue="{valid:Validation Binding={Binding person.Lieblingsfarbe, UpdateSourceTrigger=PropertyChanged}, Rule={StaticResource ColorValid}}"
+					  Validation.ErrorTemplate="{StaticResource ET}"
+					  SelectedValuePath="Name">
 				<ComboBox.ItemTemplate>
 					<DataTemplate>
 						<StackPanel Orientation="Horizontal">
@@ -59,13 +87,15 @@
 					</DataTemplate>
 				</ComboBox.ItemTemplate>
 				
-				--><!--<ComboBoxItem Content="Rot" Foreground="Red"/>
+				<!--<ComboBoxItem Content="Rot" Foreground="Red"/>
 				<ComboBoxItem Content="Gelb" Foreground="Yellow"/>
 				<ComboBoxItem Content="Grün" Foreground="Green"/>
-				<ComboBoxItem Content="Blau" Foreground="Blue"/>--><!--
-			</ComboBox>-->
+				<ComboBoxItem Content="Blau" Foreground="Blue"/>-->
+			</ComboBox>
 
-			<ComboBox ItemsSource="{local:Colors}" SelectedValue="{Binding person.Lieblingsfarbe}">
+			<!--<ComboBox ItemsSource="{local:Colors}"
+					  SelectedValue="{valid:Validation Binding={Binding person.Lieblingsfarbe}, Rule={StaticResource ColorValid}}"
+					  Validation.ErrorTemplate="{StaticResource ET}">
 				<ComboBox.ItemTemplate>
 					<DataTemplate>
 						<StackPanel Orientation="Horizontal">
@@ -75,7 +105,7 @@
 						</StackPanel>
 					</DataTemplate>
 				</ComboBox.ItemTemplate>
-			</ComboBox>
+			</ComboBox>-->
 		</UniformGrid>
 		<UniformGrid>
 			<TextBlock Text="Geschlecht: "/>
