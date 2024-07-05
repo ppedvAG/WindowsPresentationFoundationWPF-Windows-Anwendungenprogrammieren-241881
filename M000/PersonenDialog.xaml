@@ -34,6 +34,7 @@
 
 		<valid:DateValidation x:Key="DateValid" ValidatesOnTargetUpdated="True"/>
 		<valid:ColorValidation x:Key="ColorValid" ValidatesOnTargetUpdated="True"/>
+		<valid:NumberValidation x:Key="NumberValid" ValidatesOnTargetUpdated="True"/>
 
 		<ControlTemplate x:Key="ET">
 			<Border BorderBrush="Red" BorderThickness="3">
@@ -145,6 +146,12 @@
 			<!--<ComboBox SelectedValue="{Binding person.Geschlecht}" ItemsSource="{Binding Geschlechter}"/>-->
 		</UniformGrid>
 		<UniformGrid>
+			<TextBlock Text="Anzahl Kinder: "/>
+			<local:IntegerUpDown Number="{valid:Validation Binding={Binding person.AnzahlKinder}, Rule={StaticResource NumberValid}}"
+								 Validation.ErrorTemplate="{StaticResource ET}"
+								 x:Name="AnzKinder"/>
+		</UniformGrid>
+		<UniformGrid>
 			<Button Content="OK" Margin="0 0 2.5 0" Click="Button_Click">
 				<Button.Style>
 					<Style TargetType="Button">
@@ -156,6 +163,7 @@
 									<Condition Binding="{Binding ElementName=NN, Path=(Validation.HasError)}" Value="False"/>
 									<Condition Binding="{Binding ElementName=GebDat, Path=(Validation.HasError)}" Value="False"/>
 									<Condition Binding="{Binding ElementName=Farbe, Path=(Validation.HasError)}" Value="False"/>
+									<Condition Binding="{Binding ElementName=AnzKinder, Path=(Validation.HasError)}" Value="False"/>
 								</MultiDataTrigger.Conditions>
 								<Setter Property="IsEnabled" Value="True"/>
 							</MultiDataTrigger>

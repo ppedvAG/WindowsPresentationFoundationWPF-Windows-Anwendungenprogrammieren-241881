@@ -18,7 +18,8 @@
 				IsSnapToTickEnabled="True"
 				Name="Slider"
 				Grid.Column="1"
-				Value="{Binding ElementName=Self, Path=SliderValue}"/>
+				Value="{Binding ElementName=Self, Path=SliderValue}"
+				ValueChanged="Slider_ValueChanged"/>
 		<TextBox Text="{Binding ElementName=Slider, Path=Value}"
 				 TextAlignment="Center"
 				 Grid.Column="2"/>

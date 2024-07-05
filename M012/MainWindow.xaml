@@ -1,0 +1,97 @@
+﻿<Window x:Class="M012.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:M012"
+        mc:Ignorable="d"
+		DataContext="{Binding RelativeSource={RelativeSource Self}}"
+        Title="MainWindow" Height="450" Width="800"
+		WindowStartupLocation="CenterScreen"
+		Topmost="True">
+	<!--DataGrid-->
+	<!--Zeichnet eine Zeile für jedes Objekt-->
+	<!--Erzeugt eine Spalte für jedes Property im Objekt-->
+	<!--Generell, wenn die Daten schön dargstellt werden sollen, müssen eigene Spalten definiert werden-->
+	<!--WICHTIG: AutoGenerateColumns auf False setzen-->
+	<DataGrid ItemsSource="{Binding Personen}"
+			  AutoGenerateColumns="False"
+			  CanUserAddRows="False"
+			  CanUserResizeRows="False"
+			  CanUserReorderColumns="False"
+			  CanUserDeleteRows="False"
+			  SelectionMode="Single"
+			  AlternatingRowBackground="LightGray"
+			  AlternationCount="5"
+			  EnableRowVirtualization="True"
+			  EnableColumnVirtualization="True"
+			  VirtualizingPanel.CacheLength="50"
+			  VirtualizingPanel.CacheLengthUnit="Item"
+			  VirtualizingPanel.VirtualizationMode="Recycling"
+			  VirtualizingPanel.IsVirtualizing="True"
+			  VirtualizingPanel.ScrollUnit="Item">
+		<!--Virtualization: Zeilen/Spalten die nicht im Bild sind nicht rendern-->
+		<!--ColumnWidth=*, Auto-->
+		<DataGrid.Resources>
+			<local:StringConcatConverter x:Key="SCC"/>
+		</DataGrid.Resources>
+		<DataGrid.Columns>
+			<DataGridTextColumn Header="ID" Binding="{Binding ID}"/>
+			<DataGridTextColumn Header="Vorname" Binding="{Binding Vorname}"/>
+			<DataGridTextColumn Header="Nachname" Binding="{Binding Nachname}"/>
+			<!--Datumsformatierung mit StringFormat-->
+			<DataGridTextColumn Header="Geburtsdatum" Binding="{Binding Geburtsdatum, StringFormat='dddd, dd. MMMM.yyyy'}"/>
+			<DataGridTextColumn Header="Alter" Binding="{Binding Alter}"/>
+			<!--Hier Job zerlegen in 3 einzelne Spalten-->
+			<DataGridTextColumn Header="Jobtitel" Binding="{Binding Job.Titel}"/>
+			<DataGridTextColumn Header="Gehalt" Binding="{Binding Job.Gehalt, StringFormat='\{0}€'}"/> <!--\ am Anfang vom StringFormat, wenn {0} das erste Zeichen sein soll-->
+			<DataGridTextColumn Header="Einstellungsdatum" Binding="{Binding Job.Einstellungsdatum, StringFormat='dd.MM.yyyy'}"/>
+
+			<!--Liste mithilfe eines Converters auspacken-->
+			<DataGridTextColumn Header="Hobbies" Binding="{Binding Hobbies, Converter={StaticResource SCC}}" Width="*"/>
+
+			<!--Hobbies zusammenbauen mithilfe von TemplateColumn und ItemsControl-->
+			<!--<DataGridTemplateColumn Header="Hobbies">
+				<DataGridTemplateColumn.CellTemplate>
+					<DataTemplate>
+						<ItemsControl ItemsSource="{Binding Hobbies}">
+							<ItemsControl.ItemsPanel>
+								<ItemsPanelTemplate>
+									<StackPanel Orientation="Horizontal"/>
+								</ItemsPanelTemplate>
+							</ItemsControl.ItemsPanel>
+							<ItemsControl.ItemTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding ., StringFormat='\{0}, '}"/>
+								</DataTemplate>
+							</ItemsControl.ItemTemplate>
+						</ItemsControl>
+					</DataTemplate>
+				</DataGridTemplateColumn.CellTemplate>
+			</DataGridTemplateColumn>-->
+
+			<!--Style auf Column anwenden-->
+			<DataGridTextColumn Header="Test" Binding="{Binding Alter}">
+				<DataGridTextColumn.CellStyle>
+					<Style TargetType="DataGridCell">
+						<Setter Property="FontSize" Value="40"/>
+					</Style>
+				</DataGridTextColumn.CellStyle>
+			</DataGridTextColumn>
+			
+			<!--DataGridTemplateColumn-->
+			<!--Spalte, mit beliebigem Inhalt (nicht nur Text)-->
+			<!--Inhalt wird über das CellTemplate festgelegt-->
+			<DataGridTemplateColumn Header="Buttons">
+				<DataGridTemplateColumn.CellTemplate>
+					<DataTemplate>
+						<Button Content="Person löschen"
+								Click="Button_Click"
+								Tag="{Binding}"/>
+						<!--Tag: Eigenschaft von jedem UI-Element, die beliebige Daten halten kann-->
+					</DataTemplate>
+				</DataGridTemplateColumn.CellTemplate>
+			</DataGridTemplateColumn>
+		</DataGrid.Columns>
+    </DataGrid>
+</Window>

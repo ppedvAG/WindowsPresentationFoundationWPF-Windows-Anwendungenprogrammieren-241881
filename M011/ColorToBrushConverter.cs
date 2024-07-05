@@ -1,0 +1,20 @@
+﻿using System.Globalization;
+using System.Windows.Data;
+using System.Windows.Media;
+
+namespace M011;
+
+public class ColorToBrushConverter : IValueConverter
+{
+	public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+	{
+		Color c = (Color)value;
+		return new SolidColorBrush(c);
+	}
+
+	public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+	{
+		SolidColorBrush s = (SolidColorBrush)value;
+		return s.Color;
+	}
+}

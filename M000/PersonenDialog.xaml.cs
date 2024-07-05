@@ -15,6 +15,6 @@ public partial class PersonenDialog : Window
 
 	private void Button_Click(object sender, RoutedEventArgs e)
 	{
-		MessageBox.Show($"{person.Vorname}\n{person.Nachname}\n{person.GebDat}\n{person.Verheiratet}\n{person.Lieblingsfarbe}\n{person.Geschlecht}");
+		MessageBox.Show($"{person.Vorname}\n{person.Nachname}\n{person.GebDat}\n{person.Verheiratet}\n{person.Lieblingsfarbe}\n{person.Geschlecht}\n{person.AnzahlKinder}");
 	}
 }

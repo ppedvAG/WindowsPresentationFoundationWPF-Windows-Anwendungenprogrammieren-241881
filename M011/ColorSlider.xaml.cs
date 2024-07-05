@@ -58,4 +58,31 @@ public partial class ColorSlider : UserControl
 			typeof(ColorSlider),
 			new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault)
 		);
+
+
+
+	public event RoutedPropertyChangedEventHandler<double> SliderValueChanged
+	{
+		add { AddHandler(SliderValueChangedEvent, value); }
+		remove { RemoveHandler(SliderValueChangedEvent, value); }
+	}
+
+	public static readonly RoutedEvent SliderValueChangedEvent =
+		EventManager.RegisterRoutedEvent
+		(
+			nameof(SliderValueChanged),
+			RoutingStrategy.Direct,
+			//RoutingStrategy: Bestimmt in welcher Reihenfolge Events ausgeführt werden
+			//Bubbling: Innen nach außen
+			//Tunneling: Außen nach Innen
+			//Direct: Umgeht den Baum komplett
+			typeof(RoutedPropertyChangedEventHandler<double>),
+			typeof(ColorSlider)
+		);
+
+	private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+	{
+		e.RoutedEvent = SliderValueChangedEvent;
+		RaiseEvent(e);
+	}
 }

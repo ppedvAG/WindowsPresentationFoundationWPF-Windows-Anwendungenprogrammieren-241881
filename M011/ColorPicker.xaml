@@ -3,28 +3,20 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:M011"
 			 Name="Self">
+	<UserControl.Resources>
+		<local:ColorToBrushConverter x:Key="CBC"/>
+	</UserControl.Resources>
     <StackPanel>
 		<StackPanel>
-			<local:ColorSlider Text="R:" TextColor="Red" SliderValue="{Binding ElementName=Self, Path=RedValue}"/>
+			<local:ColorSlider Text="R:" TextColor="Red" SliderValue="{Binding ElementName=Self, Path=RedValue}" SliderValueChanged="ColorSlider_SliderValueChanged"/>
 			<local:ColorSlider Text="G:" TextColor="Green" SliderValue="{Binding ElementName=Self, Path=GreenValue}"/>
 			<local:ColorSlider Text="B:" TextColor="Blue" SliderValue="{Binding ElementName=Self, Path=BlueValue}"/>
 			<local:ColorSlider Text="A:" TextColor="Black" SliderValue="{Binding ElementName=Self, Path=AlphaValue}"/>
 		</StackPanel>
 		<StackPanel>
 			<TextBlock Text="{Binding ElementName=Rect, Path=Fill, StringFormat='Picked Color: {0}'}" TextAlignment="Center"/>
-			<Rectangle Width="150" Height="150" Stroke="Black" StrokeThickness="2" Name="Rect">
-				<Rectangle.Fill>
-					<MultiBinding>
-						<Binding ElementName="Self" Path="AlphaValue"/>
-						<Binding ElementName="Self" Path="RedValue"/>
-						<Binding ElementName="Self" Path="GreenValue"/>
-						<Binding ElementName="Self" Path="BlueValue"/>
-						<MultiBinding.Converter>
-							<local:ARGBConverter/>
-						</MultiBinding.Converter>
-					</MultiBinding>
-				</Rectangle.Fill>
-			</Rectangle>
+			<Rectangle Width="150" Height="150" Stroke="Black" StrokeThickness="2" Name="Rect"
+					   Fill="{Binding ElementName=Self, Path=PickedColor, Converter={StaticResource CBC}}"/>
 		</StackPanel>
 	</StackPanel>
 </UserControl>

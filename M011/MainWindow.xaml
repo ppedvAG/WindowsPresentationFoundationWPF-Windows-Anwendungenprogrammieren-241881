@@ -6,10 +6,11 @@
         xmlns:local="clr-namespace:M011"
         mc:Ignorable="d"
 		DataContext="{Binding RelativeSource={RelativeSource Self}}"
-        Title="MainWindow" Height="450" Width="800"
+        Title="MainWindow" Height="450" Width="300"
 		WindowStartupLocation="CenterScreen"
-		Topmost="True">
-	<StackPanel>
+		Topmost="True"
+		ButtonBase.Click="Window_Click">
+	<StackPanel Margin="5" ButtonBase.Click="StackPanel_Click">
 		<!--UserControl-->
 		<!--Eigene UI-Komponenten designen-->
 		

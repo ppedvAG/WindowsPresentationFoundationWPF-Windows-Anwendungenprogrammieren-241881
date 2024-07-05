@@ -77,6 +77,18 @@ public class Person : INotifyPropertyChanged
 		}
 	}
 
+	private int anzahlKinder;
+
+	public int AnzahlKinder
+	{
+		get => anzahlKinder;
+		set
+		{
+			anzahlKinder = value;
+			Notify(nameof(AnzahlKinder));
+		}
+	}
+
 	public event PropertyChangedEventHandler? PropertyChanged;
 
 	public void Notify(string prop) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
