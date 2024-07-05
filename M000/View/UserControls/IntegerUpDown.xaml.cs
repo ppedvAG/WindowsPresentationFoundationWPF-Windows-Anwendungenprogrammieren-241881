@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace M000;
+namespace M000.View.UserControls;
 
 public partial class IntegerUpDown : UserControl
 {

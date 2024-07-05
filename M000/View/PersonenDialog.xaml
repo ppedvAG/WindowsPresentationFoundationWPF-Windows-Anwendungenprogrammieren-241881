@@ -1,4 +1,4 @@
-﻿<Window x:Class="M000.PersonenDialog"
+﻿<Window x:Class="M000.View.PersonenDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:M000"
@@ -6,6 +6,9 @@
 		xmlns:valid="clr-namespace:M000.Validation"
 		xmlns:conv="clr-namespace:M000.Converter"
 		xmlns:M011="clr-namespace:M011;assembly=M011"
+		xmlns:uc="clr-namespace:M000.View.UserControls"
+		xmlns:model="clr-namespace:M000.Model"
+		xmlns:vm="clr-namespace:M000.ViewModel"
         Title="Personendialog"
 		Height="450"
 		Width="350"
@@ -14,6 +17,9 @@
 		SizeToContent="Height"
 		WindowStartupLocation="CenterScreen"
 		Style="{StaticResource WindowStyle}">
+	<Window.DataContext>
+		<vm:PersonDialogViewModel/>
+	</Window.DataContext>
 	<Window.Resources>
 		<conv:GenderConverter x:Key="GC"/>
 
@@ -139,20 +145,21 @@
 		<UniformGrid>
 			<TextBlock Text="Geschlecht: "/>
 			<StackPanel>
-				<RadioButton GroupName="G" Content="M" IsChecked="{Binding person.Geschlecht, Converter={StaticResource GC}, ConverterParameter={x:Static local:Geschlecht.M}}"/>
-				<RadioButton GroupName="G" Content="W" IsChecked="{Binding person.Geschlecht, Converter={StaticResource GC}, ConverterParameter={x:Static local:Geschlecht.W}}"/>
-				<RadioButton GroupName="G" Content="D" IsChecked="{Binding person.Geschlecht, Converter={StaticResource GC}, ConverterParameter={x:Static local:Geschlecht.D}}"/>
+				<RadioButton GroupName="G" Content="M" IsChecked="{Binding person.Geschlecht, Converter={StaticResource GC}, ConverterParameter={x:Static model:Geschlecht.M}}"/>
+				<RadioButton GroupName="G" Content="W" IsChecked="{Binding person.Geschlecht, Converter={StaticResource GC}, ConverterParameter={x:Static model:Geschlecht.W}}"/>
+				<RadioButton GroupName="G" Content="D" IsChecked="{Binding person.Geschlecht, Converter={StaticResource GC}, ConverterParameter={x:Static model:Geschlecht.D}}"/>
 			</StackPanel>
 			<!--<ComboBox SelectedValue="{Binding person.Geschlecht}" ItemsSource="{Binding Geschlechter}"/>-->
 		</UniformGrid>
 		<UniformGrid>
 			<TextBlock Text="Anzahl Kinder: "/>
-			<local:IntegerUpDown Number="{valid:Validation Binding={Binding person.AnzahlKinder}, Rule={StaticResource NumberValid}}"
+			<uc:IntegerUpDown Number="{valid:Validation Binding={Binding person.AnzahlKinder}, Rule={StaticResource NumberValid}}"
 								 Validation.ErrorTemplate="{StaticResource ET}"
 								 x:Name="AnzKinder"/>
 		</UniformGrid>
 		<UniformGrid>
-			<Button Content="OK" Margin="0 0 2.5 0" Click="Button_Click">
+			<Button Content="OK" Margin="0 0 2.5 0"
+					Command="{Binding OkCommand}">
 				<Button.Style>
 					<Style TargetType="Button">
 						<Setter Property="IsEnabled" Value="False"/>

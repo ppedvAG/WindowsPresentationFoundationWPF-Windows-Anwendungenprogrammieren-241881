@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using System.Windows.Data;
+using M000.Model;
 
 namespace M000.Converter;
 

@@ -71,13 +71,13 @@
 			</DataGridTemplateColumn>-->
 
 			<!--Style auf Column anwenden-->
-			<DataGridTextColumn Header="Test" Binding="{Binding Alter}">
+			<!--<DataGridTextColumn Header="Test" Binding="{Binding Alter}">
 				<DataGridTextColumn.CellStyle>
 					<Style TargetType="DataGridCell">
 						<Setter Property="FontSize" Value="40"/>
 					</Style>
 				</DataGridTextColumn.CellStyle>
-			</DataGridTextColumn>
+			</DataGridTextColumn>-->
 			
 			<!--DataGridTemplateColumn-->
 			<!--Spalte, mit beliebigem Inhalt (nicht nur Text)-->

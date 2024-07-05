@@ -1,0 +1,44 @@
+﻿<Window x:Class="M013.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:local="clr-namespace:M013"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800"
+		WindowStartupLocation="CenterScreen"
+		Topmost="True"
+		Name="MW">
+    <StackPanel>
+		<!--Command-->
+		<!--Event Logik in ein eigenes Objekt wrappen-->
+		<!--Dieses Objekt kann gebunden werden (Binding) an das Command Property-->
+		<!--Normale Events können in MVVM nicht verwendet werden-->
+		<Button Click="Button_Click"
+				Content="Click Test"/>
+
+		<!--Commands können im Backend (ViewModel) abgelegt werden und per Binding angebunden werden-->
+		<Button Command="{Binding ElementName=MW, Path=Close}"
+				CommandParameter="{Binding ElementName=MW}"
+				Content="Command Test"/>
+
+		<!--CustomCommand im Backend-->
+		<Button Command="{Binding ElementName=MW, Path=CustomCommand}"
+				CommandParameter="{Binding ElementName=MW}"
+				Content="CustomCommand Test"/>
+		
+		<!--Beliebige Events binden-->
+		<!--Standardmäßig ist das Command beim Button das Click-Event-->
+		<!--Wenn ein anderes Event gebunden werden soll, muss das Behaviors Paket verwendet werden-->
+		<!--NuGet: Microsoft.Xaml.Behaviors.Wpf-->
+		<Button Content="Close on Enter" FontSize="40">
+			<b:Interaction.Triggers>
+				<b:EventTrigger EventName="MouseEnter">
+					<b:InvokeCommandAction Command="{Binding ElementName=MW, Path=Close}"
+										   CommandParameter="{Binding ElementName=MW}"/>
+				</b:EventTrigger>
+			</b:Interaction.Triggers>
+		</Button>
+	</StackPanel>
+</Window>

@@ -15,14 +15,20 @@ public partial class MainWindow : Window
 	{
 		InitializeComponent();
 		string readJson = File.ReadAllText(@"..\..\..\Personen.json");
-		foreach (Person p in JsonSerializer.Deserialize<List<Person>>(readJson)!)
-			Personen.Add(p);
+		//foreach (Person p in JsonSerializer.Deserialize<List<Person>>(readJson)!)
+		//	Personen.Add(p);
+		Personen.AddRange(JsonSerializer.Deserialize<List<Person>>(readJson)!);
+		//ExtensionMethods.AddRange(Personen, JsonSerializer.Deserialize<List<Person>>(readJson)!); //Wird vom Compiler generiert
+		
+		//Unser Code vs. Compiler Code
+		Personen.Where(e => e.Alter > 30);
+		Enumerable.Where(Personen, e => e.Alter > 30);
 	}
 
 	private void Button_Click(object sender, RoutedEventArgs e)
 	{
-		Button b = (Button) sender;
-		Person p = b.DataContext as Person;
+		Button b = (sender as Button)!;
+		Person p = (b.DataContext as Person)!;
 		//Person p2 = b.Tag as Person;
 		Personen.Remove(p);
 	}

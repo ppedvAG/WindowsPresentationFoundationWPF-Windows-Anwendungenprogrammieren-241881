@@ -7,7 +7,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace M000
+namespace M000.View.UserControls
 {
 	public partial class ColorPicker : Window
 	{
